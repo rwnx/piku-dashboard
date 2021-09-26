@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section>
+  <header>
+    </header>
+  <aside>
+    <h2><img class="icon" src="{{ url_for('static', filename='dns_black_24dp.svg') }}" alt="Server Icon" />Host</h2>
+    <h3>Hostname</h3>
+    <code>{{host_info.hostname}}</code>
+    <h3>Uptime</h3>
+    <code>{{host_info.uptime}}</code>
+  </aside>
+
+  {% for app in apps %}
+  <aside>
+    <h2>{{app.id}} <sup class="applabel-{{ "active" if app.active else "inactive" }}">{{ 'Active' if app.active else 'Inactive' }}</sup></h2>
+    <ul>
+      <li><a href="{{url_for('app_logs', appid=app.id)}}">📖 View Logs</a></li>
+      <li><a href="{{url_for('app_config', appid=app.id)}}">🛠 Manage Config</a></li>
+    </ul>
+
+    <form class="app-action" method="POST" action="{{url_for('restart_app', appid=app.id)}}"><button {% if not app.active %}disabled{% endif %} type="submit">🔄 Restart</button></form>
+    {% if app.active %}
+    <form class="app-action" method="POST" action="{{url_for('stop_app', appid=app.id)}}"><button type="submit">✋ Stop</button></form>
+    {% else %}
+    <form class="app-action" method="POST" action="{{url_for('deploy_app', appid=app.id)}}"><button type="submit">🏁 Start</button></form>
+    {% endif %}
+    <form class="app-action" method="POST" action="{{url_for('destroy_app', appid=app.id)}}"><button type="submit">☠️ Destroy</button></form>
+  </aside>
+  {% endfor %}
+</section>
+{% endblock %}

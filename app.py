@@ -1,0 +1,1 @@
+from piku_dashboard.main import app

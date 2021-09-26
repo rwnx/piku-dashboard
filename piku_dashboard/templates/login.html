@@ -1,0 +1,31 @@
+{% extends '_base.html' %}
+
+{% block title %}{{app}}{% endblock %}
+
+{% block content %}
+<section>
+  <h2>{{appid}} Config</h2>
+</section>
+<section>
+<form method="post" action="{{ url_for('app_config', appid=appid) }}">
+<table>
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+  </tr>
+</thead>
+<tbody>
+{% for k,v in app_config.items() %}
+  <tr>
+      <td><label for="{{ k }}">{{ k }}</label></td>
+      <td><input type="text" name="{{ k }}" id="{{ k }}" value="{{ v }}"></td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+<hr>
+<button type="submit">Save Config</button>
+</form>
+</section>
+{% endblock %}
