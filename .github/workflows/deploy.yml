@@ -1,0 +1,36 @@
+name: Deploy Prod
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    env:
+      MACHINE: ${{ secrets.MACHINE }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Tailscale
+        uses: tailscale/github-action@main
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      - name: Add SSH key
+        id: ssh
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          MACHINE_IP="$(tailscale ip -6 $MACHINE)"
+          ssh-keyscan $MACHINE_IP >> ~/.ssh/known_hosts
+          printf "%s" "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Add piku remote
+        run: git remote add piku piku@[$(tailscale ip -6 $MACHINE)]:${{ secrets.APP_NAME }}
+      - run: git push -f piku master
+        

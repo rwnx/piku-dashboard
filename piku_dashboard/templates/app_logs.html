@@ -1,0 +1,21 @@
+{% extends '_base.html' %}
+
+{% block title %}{{app}} Logs{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>{{appid}} Logs</h2>
+    </section>
+{% for logfile, content in logcontent.items() %}
+    <section>
+    <h3>{{ logfile }}</h3>
+    </section>
+
+    <section>
+        <code class="logs">
+            {% for line in content|reverse %}<div>{{ line }}</div> {% endfor %}
+        </code>
+    </section>
+{% endfor %}
+
+{% endblock %}

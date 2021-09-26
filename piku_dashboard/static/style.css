@@ -1,0 +1,55 @@
+img.icon {
+  margin:0;
+  height:2rem;
+  width:2rem;
+  margin-bottom:-0.45rem;
+}
+
+p.flash {
+  font-size: 1.5rem;
+}
+
+p.flash::before {
+  content: 'ℹ️';
+  margin-right:5px;
+}
+
+p.flash-error {
+  color: rgb(240, 34, 78);
+}
+
+p.flash-error::before {
+  content: '🚫';
+  margin-right:5px;
+}
+
+p.flash-success::before {
+  content: '✅';
+  margin-right:5px;
+}
+
+form.app-action > button {
+  display:block;
+  width:100%;
+  background:white;
+  color: var(--color);
+  border: 1px solid var(--color);
+}
+
+form.app-action {
+  padding:0;
+  box-shadow: none;
+  border:0;
+  margin:0;
+}
+
+code.logs {
+  max-height: 400px;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: auto;
+}
+
+.applabel-inactive {
+  background: #7b7b7b;
+}

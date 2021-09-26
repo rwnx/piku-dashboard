@@ -1,0 +1,29 @@
+<!doctype html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='mvp.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}{% endblock %} | PikuDashboard</title>
+</head>
+
+<body>
+  <header>
+      <a href="{{ url_for('home') }}">Piku Dashboard</a>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <section>
+          {% for category, message in messages %}
+            <p class="flash flash-{{category}}">{{ message }}</p>
+          {% endfor %}
+          </section>
+        {% endif %}
+      {% endwith %}
+  </header>
+  <main>
+      {% block content %}{% endblock %}
+  </main>
+</body>
+
+</html>
