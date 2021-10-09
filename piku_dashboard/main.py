@@ -14,6 +14,9 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
+def is_self(appid):
+    return appid == app.config["SELF_APP_NAME"]
+
 def check_auth(username, password):
     return username == app.config["USERNAME"] and password == app.config["PASSWORD"]
 
@@ -47,7 +50,6 @@ def home():
 @app.route("/apps/<appid>/config", methods=["GET"])
 @login_required
 def app_config(appid):
-    app_config = piku_client.config(appid)
     return render_template("app_config.html", appid=appid, app_config=app_config)
 
 
@@ -83,8 +85,12 @@ def restart_app(appid):
 @app.route("/apps/<appid>/stop", methods=["POST"])
 @login_required
 def stop_app(appid):
-    piku_client.stop_app(appid)
-    flash(f"🛑 Stopped {appid}", "success")
+    if not is_self(appid):
+        piku_client.stop_app(appid)
+        flash(f"🛑 Stopped {appid}", "success")
+    else:
+        flash("You can't perform that action on the dashboard application", "error")
+
     return redirect(url_for("home"))
 
 
@@ -99,6 +105,10 @@ def deploy_app(appid):
 @app.route("/apps/<appid>/destroy", methods=["POST"])
 @login_required
 def destroy_app(appid):
-    piku_client.destroy_app(appid)
-    flash(f"☠️ Destroyed {appid}", "success")
+    if not is_self(appid):
+        piku_client.destroy_app(appid)
+        flash(f"☠️ Destroyed {appid}", "success")
+    else:
+        flash("You can't perform that action on the dashboard application", "error")
+
     return redirect(url_for("home"))
