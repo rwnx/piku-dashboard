@@ -50,7 +50,8 @@ def home():
 @app.route("/apps/<appid>/config", methods=["GET"])
 @login_required
 def app_config(appid):
-    return render_template("app_config.html", appid=appid, app_config=app_config)
+    app_config_data = piku_client.config(appid)
+    return render_template("app_config.html", appid=appid, app_config=app_config_data)
 
 
 @app.route("/apps/<appid>/config", methods=["POST"])
