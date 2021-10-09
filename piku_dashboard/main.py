@@ -66,7 +66,7 @@ def replace_app_config(appid):
 @login_required
 def app_logs(appid):
     logcontent = piku_client.logs(appid)
-    return render_template("app_logs.html", logcontent=logcontent)
+    return render_template("app_logs.html", appid=appid, logcontent=logcontent)
 
 
 @app.route("/apps/<appid>/scaling", methods=["GET"])
