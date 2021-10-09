@@ -28,7 +28,7 @@
     {% else %}
     <form class="app-action" method="POST" action="{{url_for('deploy_app', appid=app.id)}}"><button type="submit">🏁 Start</button></form>
     {% endif %}
-    <form class="app-action" method="POST" action="{{url_for('destroy_app', appid=app.id)}}"><button type="submit">☠️ Destroy</button></form>
+    <form class="app-action" method="POST" onsubmit="return confirm('Are you sure you want to destroy {{ appid }}? This CANNOT be undone.')" action="{{url_for('destroy_app', appid=app.id)}}"><button type="submit">☠️ Destroy</button></form>
   </aside>
   {% endfor %}
 </section>
