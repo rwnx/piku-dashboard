@@ -17,6 +17,9 @@
   {% for app in apps %}
   <aside>
     <h2>{{app.id}} <sup class="applabel-{{ "active" if app.active else "inactive" }}">{{ 'Active' if app.active else 'Inactive' }}</sup></h2>
+      <ul class="app-meta">
+          <li>{{app.ref}}</li>
+      </ul>
     <ul>
       <li><a href="{{url_for('app_logs', appid=app.id)}}">📖 View Logs</a></li>
       <li><a href="{{url_for('app_config', appid=app.id)}}">🛠 Manage Config</a></li>
