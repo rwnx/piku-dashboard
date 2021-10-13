@@ -53,3 +53,7 @@ code.logs {
 .applabel-inactive {
   background: #7b7b7b;
 }
+
+.app-meta {
+  list-style: none;
+}

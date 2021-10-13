@@ -11,18 +11,20 @@ logger = logging.getLogger(__name__)
 PIKU_BIN = "/home/piku/piku.py"
 PIKU_ROOT = os.environ.get("PIKU_ROOT", os.path.join(os.environ["HOME"], ".piku"))
 LOG_ROOT = os.path.abspath(os.path.join(PIKU_ROOT, "logs"))
+APPS_ROOT = os.path.abspath(os.path.join(PIKU_ROOT, "apps"))
 
 
 @dataclass
 class PikuApp:
     active: bool
     id: str
+    ref: str
 
 class PikuError(RuntimeError):
     pass
 
 
-def piku_run(args):
+def _piku_run(args):
     cmd = subprocess.run([PIKU_BIN, *args], stdout=subprocess.PIPE)
     result = cmd.stdout.decode().strip()
     if result.startswith("Error:"):
@@ -30,9 +32,13 @@ def piku_run(args):
 
     return result
 
+def _git_describe_app(app_id):
+    cmd = subprocess.run(["git", "describe", "--always", "--tags"], stdout=subprocess.PIPE, cwd=os.path.join(APPS_ROOT, app_id))
+    return cmd.stdout.decode().strip()
+
 
 def all_apps():
-    data = piku_run(["apps"]).split("\n")
+    data = _piku_run(["apps"]).split("\n")
     logger.debug("cmd output: %s", data)
     apps = []
     for item in data:
@@ -41,8 +47,11 @@ def all_apps():
             continue
 
         active = match[1] is not None
+        app_id = match[2]
 
-        app = PikuApp(active=active, id=match[2])
+        ref = _git_describe_app(app_id)
+
+        app = PikuApp(active=active, id=app_id, ref=ref)
         apps.append(app)
 
     return apps
@@ -66,34 +75,34 @@ def logs(appid):
 
 
 def ps(appid):
-    data = piku_run(["ps", appid])
+    data = _piku_run(["ps", appid])
 
 
 def config(appid):
-    config_lines = piku_run(["config", appid]).split("\n")
+    config_lines = _piku_run(["config", appid]).split("\n")
     config_entries = [x.split("=") for x in config_lines]
     return {k: v for k, v in config_entries}
 
 def set_config(appid, configs):
     config_args = [f"{k}={v}" for k, v in configs.items()]
-    result = piku_run(["config:set", appid, *config_args])
+    result = _piku_run(["config:set", appid, *config_args])
     logger.info("Set %d configs for %s", len(configs), appid)
 
 def deploy_app(appid):
-    result = piku_run(["deploy", appid])
+    result = _piku_run(["deploy", appid])
     logger.info("started %s: %s", appid, result)
 
 
 def stop_app(appid):
-    result = piku_run(["stop", appid])
+    result = _piku_run(["stop", appid])
     logger.info("stopped %s: %s", appid, result)
 
 
 def restart_app(appid):
-    result = piku_run(["restart", appid])
+    result = _piku_run(["restart", appid])
     logger.info("stopped %s: %s", appid, result)
 
 
 def destroy_app(appid):
-    result = piku_run(["destroy", appid])
+    result = _piku_run(["destroy", appid])
     logger.info("stopped %s: %s", appid, result)
