@@ -51,6 +51,9 @@ def all_apps():
 def logs(appid):
     logfiles = glob.glob(os.path.join(LOG_ROOT, appid, "*" + ".*.log"))
 
+    if len(logfiles) < 1:
+        raise ValueError("No log files found, likely bad appid")
+
     logger.debug("found logfiles for %s: %s", appid, logfiles)
 
     logcontent = {}
