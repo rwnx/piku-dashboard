@@ -57,3 +57,7 @@ code.logs {
 .app-meta {
   list-style: none;
 }
+
+.center {
+  text-align: center;
+}
