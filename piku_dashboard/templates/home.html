@@ -26,12 +26,14 @@
     </ul>
 
     <form class="app-action" method="POST" action="{{url_for('restart_app', appid=app.id)}}"><button {% if not app.active %}disabled{% endif %} type="submit">🔄 Restart</button></form>
-    {% if app.active %}
-    <form class="app-action" method="POST" action="{{url_for('stop_app', appid=app.id)}}"><button type="submit">✋ Stop</button></form>
-    {% else %}
-    <form class="app-action" method="POST" action="{{url_for('deploy_app', appid=app.id)}}"><button type="submit">🏁 Start</button></form>
+    {% if app.id != self_app %}
+      {% if app.active %}
+      <form class="app-action" method="POST" action="{{url_for('stop_app', appid=app.id)}}"><button type="submit">✋ Stop</button></form>
+      {% else %}
+      <form class="app-action" method="POST" action="{{url_for('deploy_app', appid=app.id)}}"><button type="submit">🏁 Start</button></form>
+      {% endif %}
+      <form class="app-action" method="POST" onsubmit="return confirm('Are you sure you want to destroy {{ app.id }}? This CANNOT be undone.')" action="{{url_for('destroy_app', appid=app.id)}}"><button type="submit">☠️ Destroy</button></form>
     {% endif %}
-    <form class="app-action" method="POST" onsubmit="return confirm('Are you sure you want to destroy {{ app.id }}? This CANNOT be undone.')" action="{{url_for('destroy_app', appid=app.id)}}"><button type="submit">☠️ Destroy</button></form>
   </aside>
   {% endfor %}
 </section>
