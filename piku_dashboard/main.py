@@ -14,8 +14,10 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
+self_app = app.config["SELF_APP_NAME"]
+
 def is_self(appid):
-    return appid == app.config["SELF_APP_NAME"]
+    return appid == self_app
 
 def check_auth(username, password):
     return username == app.config["USERNAME"] and password == app.config["PASSWORD"]
@@ -44,7 +46,7 @@ def home():
         flash(f"Could Not fetch app list: {e}", "error")
         apps = []
 
-    return render_template("home.html", apps=apps, host_info=host_info)
+    return render_template("home.html", apps=apps, host_info=host_info, self_app=self_app)
 
 
 @app.route("/apps/<appid>/config", methods=["GET"])
