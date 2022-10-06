@@ -1,6 +1,7 @@
 import logging
 import sys
-from flask import Flask, jsonify, request, render_template, flash, redirect, url_for
+import os
+from flask import Flask, request, render_template, flash, redirect, url_for
 from functools import wraps
 
 from piku_dashboard.host_client import info
@@ -14,7 +15,8 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
-self_app = app.config["SELF_APP_NAME"]
+# piku app directories look like: /home/piku/.piku/apps/piku_dashboard
+self_app = os.path.basename(os.path.abspath(".."))
 
 def is_self(appid):
     return appid == self_app
