@@ -17,7 +17,7 @@ app.config.from_pyfile("config.py")
 
 # piku app directories look like: /home/piku/.piku/apps/piku_dashboard
 logger.info(f"Current working directory: {os.getcwd()}")
-self_app = os.path.basename(os.path.abspath("../"))
+self_app = os.path.basename(os.path.abspath("."))
 
 logger.info(f"Detected self id as: {self_app}")
 
