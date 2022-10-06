@@ -16,7 +16,10 @@ app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
 # piku app directories look like: /home/piku/.piku/apps/piku_dashboard
-self_app = os.path.basename(os.path.abspath("."))
+logger.info(f"Current working directory: {os.getcwd()}")
+self_app = os.path.basename(os.path.abspath("../"))
+
+logger.info(f"Detected self id as: {self_app}")
 
 def is_self(appid):
     return appid == self_app
