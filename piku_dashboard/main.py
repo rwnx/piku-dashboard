@@ -3,6 +3,7 @@ import sys
 import os
 from flask import Flask, request, render_template, flash, redirect, url_for
 from functools import wraps
+import requests
 
 from piku_dashboard.host_client import info
 from piku_dashboard import piku_client
@@ -20,6 +21,16 @@ logger.info(f"Current working directory: {os.getcwd()}")
 self_app = os.path.basename(os.path.abspath("."))
 
 logger.info(f"Detected self id as: {self_app}")
+
+def get_github_sha():
+    try:
+        response = requests.get("https://api.github.com/repos/rwnx/piku-dashboard/commits")
+        history = response.json()
+
+        sha = history[0]['sha'][:6]
+        return sha
+    except:
+        return "invalid_sha"
 
 def is_self(appid):
     return appid == self_app
@@ -51,7 +62,7 @@ def home():
         flash(f"Could Not fetch app list: {e}", "error")
         apps = []
 
-    return render_template("home.html", apps=apps, host_info=host_info, self_app=self_app)
+    return render_template("home.html", apps=apps, host_info=host_info, self_app=self_app, github_sha=get_github_sha())
 
 
 @app.route("/apps/<appid>/config", methods=["GET"])
