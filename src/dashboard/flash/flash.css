@@ -1,0 +1,22 @@
+.flash p {
+    font-size: 1.5rem;
+}
+
+.flash p::before {
+    content: 'ℹ️';
+    margin-right: 5px;
+}
+
+.flash-error p {
+    color: rgb(240, 34, 78);
+}
+
+.flash-error p::before {
+    content: '🚫';
+    margin-right: 5px;
+}
+
+.flash-success p::before {
+    content: '✅';
+    margin-right: 5px;
+}

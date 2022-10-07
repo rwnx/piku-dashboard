@@ -11,7 +11,7 @@ export const Page: React.VFC = () => {
   const [user, setUser] = React.useState<User>();
 
   return (
-    <article>
+    <article className="page">
       <Header
         user={user}
         onLogin={() => setUser({ name: 'Jane Doe' })}
