@@ -19,3 +19,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 * Stop & Destroy actions will no longer be shown for the dashboard application.
 * Removed Config env SELF_APP NAME. App will now self-detect dashboard application id from the directory name.
+### Added
+* A way to add new config
