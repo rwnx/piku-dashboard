@@ -13,11 +13,13 @@ export const Info = Template.bind({});
 Info.args = {
   message: "Stuff happened",
 };
+
 export const Success = Template.bind({});
 Success.args = {
   variant: "success",
   message: "🛠 Updated Configuration for App",
 };
+
 export const Error = Template.bind({});
 Error.args = {
   variant: "error",

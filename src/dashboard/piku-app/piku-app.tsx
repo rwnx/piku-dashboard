@@ -40,7 +40,7 @@ export const PikuApp = ({ appId, active, sha, self }: PikuAppProps) => {
       }
       {!self &&
         <form className="app-action" method="POST"
-              onSubmit={() => confirm(`Are you sure you want to destroy ${appId}? This CANNOT be undone.`) ? alert("url_for('destroy_app', appid=app.id)") : null}>
+              onSubmit={() => window.confirm(`Are you sure you want to destroy ${appId}? This CANNOT be undone.`) ? alert("url_for('destroy_app', appid=app.id)") : null}>
           <button type="submit">☠️ Destroy</button>
         </form>
       }

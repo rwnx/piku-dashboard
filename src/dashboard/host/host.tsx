@@ -1,24 +1,31 @@
 import React from 'react';
 import icon from "/src/assets/dns_black_24dp.svg";
+import { QueryStatus, useFetch } from "../../hooks/use-fetch";
 
 interface HostProps {
 }
 
+interface HostInfo {
+  hostname: string;
+  uptime: string;
+}
+
 export const Host = ({}: HostProps) => {
-  // TODO: API GET
-  const host_info = {
-    hostname: "raspberrypi",
-    uptime: "22:10:36 up 6:41, 3 users, load average: 0.33, 0.52, 0.59",
+  const { data, status } = useFetch<HostInfo>("/api/host-info");
+
+  if (status !== QueryStatus.Fetched) {
+    return <aside>Loading...</aside>;
   }
+
   return (
     <aside>
       <h2>
         <img className="icon" src={icon} alt="Server Icon"/>Host
       </h2>
       <h3>Hostname</h3>
-      <code>{host_info.hostname}</code>
+      <code>{data?.hostname}</code>
       <h3>Uptime</h3>
-      <code>{host_info.uptime}</code>
+      <code>{data?.uptime}</code>
     </aside>
   )
 }
