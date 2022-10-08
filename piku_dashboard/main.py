@@ -2,7 +2,8 @@ import logging
 import sys
 import os
 from flask import Flask, request, render_template, flash, redirect, url_for
-from functools import wraps
+from functools import wraps, lru_cache
+from datetime import datetime, timedelta
 import requests
 
 from piku_dashboard.host_client import info
@@ -22,6 +23,25 @@ self_app = os.path.basename(os.path.abspath("."))
 
 logger.info(f"Detected self id as: {self_app}")
 
+def timed_lru_cache(seconds: int, maxsize: int = 16):
+    def wrapper_cache(func):
+        func = lru_cache(maxsize=maxsize)(func)
+        func.lifetime = timedelta(seconds=seconds)
+        func.expiration = datetime.utcnow() + func.lifetime
+
+        @wraps(func)
+        def wrapped_func(*args, **kwargs):
+            if datetime.utcnow() >= func.expiration:
+                func.cache_clear()
+                func.expiration = datetime.utcnow() + func.lifetime
+
+            return func(*args, **kwargs)
+
+        return wrapped_func
+
+    return wrapper_cache
+
+@timed_lru_cache(60*60*24, 1)
 def get_github_sha():
     try:
         response = requests.get("https://api.github.com/repos/rwnx/piku-dashboard/commits")
@@ -50,7 +70,6 @@ def login_required(f):
         return f(**kwargs)
 
     return wrapped_view
-
 
 @app.route("/")
 @login_required
