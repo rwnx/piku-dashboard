@@ -6,10 +6,13 @@ export enum QueryStatus {
   Fetched = 'fetched',
 }
 
+interface ApiError {
+  message: string;
+}
+
 interface ApiResponse<Data> {
   data: Data | null;
-  // TODO: error type
-  errors: any[];
+  errors: ApiError[];
 }
 
 interface FetchResult<Data> extends ApiResponse<Data> {

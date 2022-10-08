@@ -4,7 +4,7 @@ import "./logs.css";
 import { RouteComponentProps } from "@reach/router";
 
 
-interface LogsRouteProps extends RouteComponentProps{
+interface LogsRouteProps extends RouteComponentProps {
   appId?: string;
 }
 
@@ -32,17 +32,19 @@ export const Logs = (props: LogsRouteProps) => {
         <h2>{data?.appId} Logs</h2>
       </section>
 
-      {data?.logs.map(log => (<>
-        <section>
-          <h3>{log.filename}</h3>
-        </section>
+      {data?.logs.map(log => (
+        <React.Fragment key={log.filename}>
+          <section>
+            <h3>{log.filename}</h3>
+          </section>
 
-        <section>
-          <code className="logs">
-            {log.lines.map(line => <div>{line}</div>)}
-          </code>
-        </section>
-      </>))}
+          <section>
+            <code className="logs">
+              {log.lines.map((line, index) => <div key={index}>{line}</div>)}
+            </code>
+          </section>
+        </React.Fragment>
+      ))}
 
     </>
   );

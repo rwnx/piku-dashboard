@@ -6,6 +6,7 @@ import { Main as HomeStoriesMain } from "./dashboard/home/home.stories";
 import { Main as LogsStoriesMain } from "./dashboard/logs/logs.stories";
 import { Main as ConfigsStoriesMain } from "./dashboard/config/config.stories";
 import { Main as HostStoriesMain } from "./dashboard/host/host.stories";
+import PikuAppStories from "./dashboard/piku-app/piku-app.stories";
 
 export default {
   title: "App",
@@ -22,6 +23,7 @@ Main.parameters = {
       ...LogsStoriesMain.parameters?.msw.handlers,
       ...ConfigsStoriesMain.parameters?.msw.handlers,
       ...HostStoriesMain.parameters?.msw.handlers,
+      ...PikuAppStories.parameters?.msw.handlers,
     ]
   }
 }

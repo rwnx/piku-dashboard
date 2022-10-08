@@ -1,6 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { PikuApp } from "./piku-app";
+import { rest } from "msw";
 
 export default {
   title: "Component/PikuApp",
@@ -14,6 +15,16 @@ export default {
       </main>
     ),
   ],
+  parameters: {
+    msw: {
+      handlers: [
+        rest.post('/api/apps/*/restart', (req, res, ctx) => res(ctx.status(200))),
+        rest.post('/api/apps/*/start', (req, res, ctx) => res(ctx.status(200))),
+        rest.post('/api/apps/*/stop', (req, res, ctx) => res(ctx.status(200))),
+        rest.post('/api/apps/*/destroy', (req, res, ctx) => res(ctx.status(200))),
+      ]
+    }
+  }
 } as ComponentMeta<typeof PikuApp>
 
 const Template: ComponentStory<typeof PikuApp> = (args) => <PikuApp {...args}/>

@@ -31,6 +31,12 @@ Main.parameters = {
                 sha: "3u4hfd",
                 self: true,
               },
+              {
+                appId: "sample_app",
+                active: false,
+                sha: "9s6h8c",
+                self: false,
+              },
             ],
           })
         )
