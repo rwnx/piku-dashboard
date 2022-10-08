@@ -2,7 +2,9 @@ import logging
 import sys
 import os
 from flask import Flask, request, render_template, flash, redirect, url_for
-from functools import wraps
+from functools import wraps, lru_cache
+from datetime import datetime, timedelta
+import requests
 
 from piku_dashboard.host_client import info
 from piku_dashboard import piku_client
@@ -20,6 +22,35 @@ logger.info(f"Current working directory: {os.getcwd()}")
 self_app = os.path.basename(os.path.abspath("."))
 
 logger.info(f"Detected self id as: {self_app}")
+
+def timed_lru_cache(seconds: int, maxsize: int = 16):
+    def wrapper_cache(func):
+        func = lru_cache(maxsize=maxsize)(func)
+        func.lifetime = timedelta(seconds=seconds)
+        func.expiration = datetime.utcnow() + func.lifetime
+
+        @wraps(func)
+        def wrapped_func(*args, **kwargs):
+            if datetime.utcnow() >= func.expiration:
+                func.cache_clear()
+                func.expiration = datetime.utcnow() + func.lifetime
+
+            return func(*args, **kwargs)
+
+        return wrapped_func
+
+    return wrapper_cache
+
+@timed_lru_cache(60*60*24, 1)
+def get_github_sha():
+    try:
+        response = requests.get("https://api.github.com/repos/rwnx/piku-dashboard/commits")
+        history = response.json()
+
+        sha = history[0]['sha'][:6]
+        return sha
+    except:
+        return "invalid_sha"
 
 def is_self(appid):
     return appid == self_app
@@ -40,7 +71,6 @@ def login_required(f):
 
     return wrapped_view
 
-
 @app.route("/")
 @login_required
 def home():
@@ -51,7 +81,7 @@ def home():
         flash(f"Could Not fetch app list: {e}", "error")
         apps = []
 
-    return render_template("home.html", apps=apps, host_info=host_info, self_app=self_app)
+    return render_template("home.html", apps=apps, host_info=host_info, self_app=self_app, github_sha=get_github_sha())
 
 
 @app.route("/apps/<appid>/config", methods=["GET"])
