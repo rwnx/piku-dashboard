@@ -2,9 +2,8 @@ import React from 'react';
 import { QueryStatus, useFetch } from "../../hooks/use-fetch";
 import { Host } from "../host";
 import { PikuApp } from "../piku-app";
+import { RouteComponentProps } from "@reach/router";
 
-interface HomeProps {
-}
 
 interface AppInfo {
   appId: string,
@@ -13,7 +12,7 @@ interface AppInfo {
   self: boolean,
 }
 
-export const Home = ({}: HomeProps) => {
+export const Home = (props: RouteComponentProps) => {
   const { data: apps, status } = useFetch<AppInfo[]>("/api/apps");
 
   if (status !== QueryStatus.Fetched) {

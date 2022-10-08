@@ -4,7 +4,7 @@ import { Host } from "./host";
 import { rest } from "msw";
 
 export default {
-  title: "Host",
+  title: "Component/Host",
   component: Host,
   decorators: [
     (Story) => (

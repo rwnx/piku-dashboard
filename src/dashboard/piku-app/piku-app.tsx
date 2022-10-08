@@ -1,5 +1,6 @@
 import React from 'react';
 import "./piku-app.css";
+import { Link } from "@reach/router";
 
 
 export interface PikuAppProps {
@@ -21,8 +22,12 @@ export const PikuApp = ({ appId, active, sha, self }: PikuAppProps) => {
         <li>{sha}</li>
       </ul>
       <ul>
-        <li><a onClick={() => alert("url_for('app_logs', appid=app.id)")}>📖 View Logs</a></li>
-        <li><a onClick={() => alert("url_for('app_config', appid=app.id)")}>🛠 Manage Config</a></li>
+        <li>
+          <Link to={`apps/${appId}/logs`} >📖 View Logs</Link>
+        </li>
+        <li>
+          <Link to={`apps/${appId}/config`} >🛠 Manage Config</Link>
+        </li>
       </ul>
 
       <form className="app-action" method="POST" onSubmit={() => alert("url_for('restart_app', appid=app.id)")}>

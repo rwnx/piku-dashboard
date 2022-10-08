@@ -33,4 +33,3 @@ piku config:set SECRET_KEY=abcdef123456790 USERNAME=bob PASSWORD=asdfghjkl0
 ```
 3. Navigate to the hosted piku_dashboard and start managing your apps. 
    The default port is listed in the `ENV` file.
-   

@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Header } from "./header";
 
 export default {
-  title: "Header",
+  title: "Structure/Header",
   component: Header,
 } as ComponentMeta<typeof Header>
 

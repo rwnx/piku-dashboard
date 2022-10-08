@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from "@reach/router";
 
 export const Header = ({}) => {
   return (
     <header>
-      <a onClick={() => alert("go back to entrance")}>Piku Dashboard</a>
+      <Link to="/">Piku Dashboard</Link>
     </header>
   )
 }

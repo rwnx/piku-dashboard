@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Flash } from "./flash";
 
 export default {
-  title: "Flash",
+  title: "Dialog/Flash",
   component: Flash,
 } as ComponentMeta<typeof Flash>
 

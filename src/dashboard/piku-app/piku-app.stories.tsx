@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { PikuApp } from "./piku-app";
 
 export default {
-  title: "PikuApp",
+  title: "Component/PikuApp",
   component: PikuApp,
   decorators: [
     (Story) => (

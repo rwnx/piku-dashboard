@@ -4,7 +4,7 @@ import { rest } from "msw";
 import { Home } from "./home";
 
 export default {
-  title: "Home",
+  title: "Page/Home",
   component: Home,
 } as ComponentMeta<typeof Home>
 
@@ -12,7 +12,6 @@ const Template: ComponentStory<typeof Home> = (args) => <Home {...args}/>
 
 export const Main = Template.bind({});
 Main.args = {};
-
 Main.parameters = {
   msw: {
     handlers: [
