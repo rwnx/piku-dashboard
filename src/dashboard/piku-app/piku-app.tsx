@@ -2,7 +2,7 @@ import React from 'react';
 import "./piku-app.css";
 
 
-interface PikuAppProps {
+export interface PikuAppProps {
   appId: string,
   active: boolean,
   sha: string,
@@ -12,7 +12,6 @@ interface PikuAppProps {
 export const PikuApp = ({ appId, active, sha, self }: PikuAppProps) => {
 
   // TODO: Needs to do some of that sweet URL LINK STUFF
-
   return (
     <aside className="piku-app">
       <h2>{appId} <sup className={`applabel-${active ? 'active' : 'inactive'}`}>
