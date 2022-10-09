@@ -13,7 +13,6 @@
       <tr>
         <th>Name</th>
         <th>Value</th>
-        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -21,11 +20,6 @@
       <tr>
         <td><label for="{{ k }}">{{ k }}</label></td>
         <td><input type="text" name="{{ k }}" id="{{ k }}" value="{{ v }}"></td>
-        <td>
-          <!-- can't nest forms :( -->
-          <!-- {{ url_for('remove_app_config', appid=appid, config=k) }} -->
-          <!-- <button>DELETE</button>-->
-        </td>
       </tr>
       {% endfor %}
       <tr>
