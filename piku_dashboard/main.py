@@ -99,6 +99,22 @@ def replace_app_config(appid):
     return redirect(url_for("app_config", appid=appid))
 
 
+@app.route("/apps/<appid>/config/add", methods=["POST"])
+@login_required
+def add_app_config(appid):
+    piku_client.add_config(appid, request.form)
+    flash(f"🛠 Added Configuration for {appid}", "success")
+    return redirect(url_for("app_config", appid=appid))
+
+@app.route("/apps/<appid>/config/<config>/delete", methods=["POST"])
+@login_required
+def remove_app_config(appid, config):
+    piku_client.remove_config(appid, config)
+    flash(f"🛠 Removed Configuration {config} for {appid}", "success")
+    return redirect(url_for("app_config", appid=appid))
+
+
+
 @app.route("/apps/<appid>/logs", methods=["GET"])
 @login_required
 def app_logs(appid):
