@@ -7,27 +7,52 @@
   <h2>{{appid}} Config</h2>
 </section>
 <section>
-<form method="post" action="{{ url_for('app_config', appid=appid) }}">
-<table>
-<thead>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-  </tr>
-</thead>
-<tbody>
-{% for k,v in app_config.items() %}
-  <tr>
-      <td><label for="{{ k }}">{{ k }}</label></td>
-      <td><input type="text" name="{{ k }}" id="{{ k }}" value="{{ v }}"></td>
-  </tr>
-{% endfor %}
-</tbody>
-</table>
-<hr>
-<button type="submit">Save Config</button>
+  <form method="post" action="{{ url_for('app_config', appid=appid) }}">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for k,v in app_config.items() %}
+      <tr>
+        <td><label for="{{ k }}">{{ k }}</label></td>
+        <td><input type="text" name="{{ k }}" id="{{ k }}" value="{{ v }}"></td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="3">
+          <button type="submit">Save Config</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
+  <hr>
+  <form method="post" action="{{ url_for('add_app_config', appid=appid) }}">
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><input type="text" name="name" id="name"></td>
+        <td><input type="text" name="value" id="value"></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button type="submit">Add Config</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
 
-</form>
 
 </section>
 {% endblock %}

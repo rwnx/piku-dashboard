@@ -80,6 +80,8 @@ def ps(appid):
 
 def config(appid):
     config_lines = _piku_run(["config", appid]).split("\n")
+    if len(config_lines) == 1 and config_lines[0].strip() == "":
+        return {}
     config_entries = [x.split("=") for x in config_lines]
     return {k: v for k, v in config_entries}
 
@@ -87,6 +89,15 @@ def set_config(appid, configs):
     config_args = [f"{k}={v}" for k, v in configs.items()]
     result = _piku_run(["config:set", appid, *config_args])
     logger.info("Set %d configs for %s", len(configs), appid)
+
+def add_config(appid, config):
+    config_args = [f"{config.get('name')}={config.get('value')}"]
+    result = _piku_run(["config:set", appid, *config_args])
+    logger.info("Add config %s=%s for %s", config.get('name'), config.get('value'), appid)
+
+def remove_config(appid, config):
+    result = _piku_run(["config:unset", appid, config])
+    logger.info("Remove config %s for %s", config, appid)
 
 def deploy_app(appid):
     result = _piku_run(["deploy", appid])
