@@ -21,3 +21,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Removed Config env SELF_APP NAME. App will now self-detect dashboard application id from the directory name.
 ### Added
 * A way to add new config
+* piku-dashboard will now check it's own version against the latest available version at https://github.com/rwnx/piku-dashboard, and display a "New Version" Link if one is available
