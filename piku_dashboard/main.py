@@ -47,8 +47,7 @@ def get_github_sha():
         response = requests.get("https://api.github.com/repos/rwnx/piku-dashboard/commits")
         history = response.json()
 
-        sha = history[0]['sha'][:6]
-        return sha
+        return history[0]['sha']
     except:
         return "invalid_sha"
 
