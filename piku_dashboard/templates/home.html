@@ -18,7 +18,7 @@
   <aside>
     <h2>{{app.id}} <sup class="applabel-{{ "active" if app.active else "inactive" }}">{{ 'Active' if app.active else 'Inactive' }}</sup></h2>
       <ul class="app-meta">
-          <li>{{app.ref}} {% not github_sha.startswith(app.ref) and app.id == self_app %}<a href="https://github.com/rwnx/piku-dashboard" target="_blank">New Version</a>{% endif %}</li>
+          <li>{{app.ref}} {% if not github_sha.startswith(app.ref) and app.id == self_app %}<a href="https://github.com/rwnx/piku-dashboard" target="_blank">New Version</a>{% endif %}</li>
       </ul>
     <ul>
       <li><a href="{{url_for('app_logs', appid=app.id)}}">📖 View Logs</a></li>
