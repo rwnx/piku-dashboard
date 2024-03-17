@@ -3,9 +3,10 @@ name: Deploy Prod
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   deploy:
+    if: false # Disabled until new host available
     env:
       MACHINE: ${{ secrets.MACHINE }}
     runs-on: ubuntu-latest
